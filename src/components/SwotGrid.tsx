@@ -1,14 +1,15 @@
 import { Shield, AlertTriangle, Lightbulb, Crosshair } from 'lucide-react';
+import { motion } from 'framer-motion';
 import type { SwotAnalysis, SwotItem } from '@/types/evaluation';
 
 interface Props {
   swot: SwotAnalysis;
 }
 
-const impactColors: Record<string, string> = {
-  High: 'bg-destructive/10 text-destructive border-destructive/20',
-  Medium: 'bg-warning/10 text-warning border-warning/20',
-  Low: 'bg-primary/10 text-primary border-primary/20',
+const impactBadge: Record<string, { base: string; glow: string }> = {
+  High: { base: 'bg-destructive/10 text-destructive border-destructive/20', glow: 'group-hover:glow-rose' },
+  Medium: { base: 'bg-warning/10 text-warning border-warning/20', glow: 'group-hover:glow-amber' },
+  Low: { base: 'bg-primary/10 text-primary border-primary/20', glow: 'group-hover:glow-emerald' },
 };
 
 const sections = [
@@ -18,6 +19,16 @@ const sections = [
   { key: 'threats' as const, label: 'Threats', icon: Crosshair, color: 'text-warning' },
 ];
 
+const container = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.1 } },
+};
+
+const card = {
+  hidden: { opacity: 0, y: 20, scale: 0.97 },
+  show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.4 } },
+};
+
 function SwotCard({ items, label, icon: Icon, color }: {
   items: SwotItem[];
   label: string;
@@ -25,7 +36,7 @@ function SwotCard({ items, label, icon: Icon, color }: {
   color: string;
 }) {
   return (
-    <div className="glass rounded-xl p-4">
+    <motion.div variants={card} className="glass glass-hover rounded-xl p-4 group">
       <div className="flex items-center gap-2 mb-3">
         <Icon className={`h-4 w-4 ${color}`} />
         <h4 className="text-sm font-semibold text-foreground">{label}</h4>
@@ -33,14 +44,14 @@ function SwotCard({ items, label, icon: Icon, color }: {
       <div className="space-y-2">
         {items.map((item, i) => (
           <div key={i} className="flex items-start gap-2">
-            <span className={`px-1.5 py-0.5 rounded text-[10px] font-semibold border flex-shrink-0 mt-0.5 ${impactColors[item.impact]}`}>
+            <span className={`px-1.5 py-0.5 rounded text-[10px] font-semibold border flex-shrink-0 mt-0.5 transition-shadow duration-300 ${impactBadge[item.impact].base} ${impactBadge[item.impact].glow}`}>
               {item.impact}
             </span>
             <p className="text-xs text-muted-foreground leading-relaxed">{item.text}</p>
           </div>
         ))}
       </div>
-    </div>
+    </motion.div>
   );
 }
 
@@ -48,11 +59,11 @@ export function SwotGrid({ swot }: Props) {
   return (
     <div className="space-y-3">
       <h3 className="text-lg font-semibold text-foreground">SWOT Analysis</h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+      <motion.div variants={container} initial="hidden" animate="show" className="grid grid-cols-1 md:grid-cols-2 gap-3">
         {sections.map((s) => (
           <SwotCard key={s.key} items={swot[s.key]} label={s.label} icon={s.icon} color={s.color} />
         ))}
-      </div>
+      </motion.div>
     </div>
   );
 }

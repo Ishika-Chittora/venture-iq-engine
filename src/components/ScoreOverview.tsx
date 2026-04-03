@@ -1,4 +1,6 @@
 import { TrendingUp, TrendingDown, DollarSign, Users, Clock, Activity } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { useCountUp } from '@/hooks/useCountUp';
 import type { EvaluationResult } from '@/types/evaluation';
 
 interface Props {
@@ -13,11 +15,24 @@ const riskColors: Record<string, string> = {
   Critical: 'text-destructive bg-destructive/20',
 };
 
+const container = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.08 } },
+};
+
+const item = {
+  hidden: { opacity: 0, y: 16 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.4 } },
+};
+
 export function ScoreOverview({ result, latency }: Props) {
+  const animatedScore = useCountUp(result.overallScore);
+  const animatedBreakEven = useCountUp(result.breakEvenMonth, 800);
+
   const metrics = [
     {
       label: 'Overall Score',
-      value: `${result.overallScore}/100`,
+      value: `${animatedScore}/100`,
       icon: Activity,
       highlight: true,
     },
@@ -33,7 +48,7 @@ export function ScoreOverview({ result, latency }: Props) {
     },
     {
       label: 'Break-even',
-      value: `Month ${result.breakEvenMonth}`,
+      value: `Month ${animatedBreakEven}`,
       icon: Clock,
     },
     {
@@ -44,7 +59,11 @@ export function ScoreOverview({ result, latency }: Props) {
   ];
 
   return (
-    <div className="glass rounded-2xl p-6">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="glass rounded-2xl p-6"
+    >
       <div className="flex items-center justify-between mb-5">
         <h3 className="text-lg font-semibold text-foreground">Risk Summary</h3>
         <div className="flex items-center gap-3">
@@ -59,10 +78,11 @@ export function ScoreOverview({ result, latency }: Props) {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+      <motion.div variants={container} initial="hidden" animate="show" className="grid grid-cols-2 md:grid-cols-5 gap-3">
         {metrics.map((m) => (
-          <div
+          <motion.div
             key={m.label}
+            variants={item}
             className={`rounded-xl p-3 ${
               m.highlight ? 'bg-gradient-to-br from-primary/10 to-accent/10 border border-primary/20' : 'bg-muted/30'
             }`}
@@ -74,11 +94,11 @@ export function ScoreOverview({ result, latency }: Props) {
             <p className={`text-lg font-bold font-mono ${m.highlight ? 'gradient-text' : 'text-foreground'}`}>
               {m.value}
             </p>
-          </div>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
 
       <p className="mt-4 text-sm text-muted-foreground leading-relaxed">{result.summary}</p>
-    </div>
+    </motion.div>
   );
 }
