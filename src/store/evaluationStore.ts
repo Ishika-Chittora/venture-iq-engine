@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 import type { EvaluationStep, EvaluationResult, IdeaInput } from '@/types/evaluation';
 
 interface EvaluationState {
@@ -17,39 +18,54 @@ interface EvaluationState {
   startEvaluation: (input: IdeaInput) => void;
 }
 
-export const useEvaluationStore = create<EvaluationState>((set) => ({
-  step: 'idle',
-  input: null,
-  result: null,
-  error: null,
-  startTime: null,
-  latency: null,
-
-  setStep: (step) => set({ step }),
-  setInput: (input) => set({ input }),
-  setResult: (result) =>
-    set((state) => ({
-      result,
-      step: 'complete',
-      latency: state.startTime ? Date.now() - state.startTime : null,
-    })),
-  setError: (error) => set({ error, step: 'error' }),
-  reset: () =>
-    set({
+export const useEvaluationStore = create<EvaluationState>()(
+  persist(
+    (set) => ({
       step: 'idle',
       input: null,
       result: null,
       error: null,
       startTime: null,
       latency: null,
+
+      setStep: (step) => set({ step }),
+      setInput: (input) => set({ input }),
+      setResult: (result) =>
+        set((state) => ({
+          result,
+          step: 'complete',
+          latency: state.startTime ? Date.now() - state.startTime : null,
+        })),
+      setError: (error) => set({ error, step: 'error' }),
+      reset: () =>
+        set({
+          step: 'idle',
+          input: null,
+          result: null,
+          error: null,
+          startTime: null,
+          latency: null,
+        }),
+      startEvaluation: (input) =>
+        set({
+          step: 'validating',
+          input,
+          result: null,
+          error: null,
+          startTime: Date.now(),
+          latency: null,
+        }),
     }),
-  startEvaluation: (input) =>
-    set({
-      step: 'validating',
-      input,
-      result: null,
-      error: null,
-      startTime: Date.now(),
-      latency: null,
-    }),
-}));
+    {
+      name: 'ventureiq-evaluation',
+      partialize: (state) => ({
+        step: state.step === 'complete' ? 'complete' : 'idle',
+        input: state.step === 'complete' ? state.input : null,
+        result: state.step === 'complete' ? state.result : null,
+        latency: state.step === 'complete' ? state.latency : null,
+        error: null,
+        startTime: null,
+      }),
+    }
+  )
+);

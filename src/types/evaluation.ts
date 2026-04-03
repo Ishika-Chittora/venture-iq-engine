@@ -12,6 +12,7 @@ export interface Competitor {
   name: string;
   description: string;
   threat: 'High' | 'Medium' | 'Low';
+  competitiveEdge?: string;
 }
 
 export interface SwotItem {
@@ -55,6 +56,7 @@ export interface EvaluationResult {
   marketSentiment: number;
   summary: string;
   recommendations: string[];
+  confidenceScore?: number;
 }
 
 export type EvaluationStep =

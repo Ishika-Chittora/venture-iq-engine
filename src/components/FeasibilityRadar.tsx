@@ -1,4 +1,5 @@
 import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, ResponsiveContainer } from 'recharts';
+import { motion } from 'framer-motion';
 import type { FeasibilityScores } from '@/types/evaluation';
 
 interface Props {
@@ -15,7 +16,12 @@ export function FeasibilityRadar({ scores }: Props) {
   ];
 
   return (
-    <div className="glass rounded-2xl p-6">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.15 }}
+      className="glass rounded-2xl p-6"
+    >
       <h3 className="text-lg font-semibold text-foreground mb-2">Feasibility Map</h3>
       <p className="text-xs text-muted-foreground mb-4">5-axis assessment (0-100)</p>
       <ResponsiveContainer width="100%" height={280}>
@@ -34,13 +40,13 @@ export function FeasibilityRadar({ scores }: Props) {
           <Radar
             name="Score"
             dataKey="value"
-            stroke="hsl(160 84% 39%)"
-            fill="hsl(160 84% 39%)"
+            stroke="hsl(152 76% 36%)"
+            fill="hsl(152 76% 36%)"
             fillOpacity={0.2}
             strokeWidth={2}
           />
         </RadarChart>
       </ResponsiveContainer>
-    </div>
+    </motion.div>
   );
 }

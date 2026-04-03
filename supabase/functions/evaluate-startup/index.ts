@@ -3,7 +3,7 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers":
-    "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
+    "authorization, x-client-info, apikey, content-type, x-chat-mode, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
 const SYSTEM_PROMPT = `You are VentureIQ, an expert startup risk analysis engine. Given a startup profile, produce a comprehensive evaluation.
@@ -20,7 +20,7 @@ You MUST respond with valid JSON matching this exact schema:
     "timing": <number 0-100>
   },
   "competitors": [
-    { "name": "<string>", "description": "<string>", "threat": "<High|Medium|Low>" }
+    { "name": "<string>", "description": "<string>", "threat": "<High|Medium|Low>", "competitiveEdge": "<actionable tip to beat this competitor>" }
   ],
   "swot": {
     "strengths": [{ "text": "<string>", "impact": "<High|Medium|Low>" }],
@@ -35,6 +35,7 @@ You MUST respond with valid JSON matching this exact schema:
   "cacLtvRatio": <number>,
   "breakEvenMonth": <number 1-24>,
   "marketSentiment": <number 0-1>,
+  "confidenceScore": <number 0-100, representing data reliability>,
   "summary": "<2-3 sentence executive summary>",
   "recommendations": ["<actionable recommendation>"]
 }
@@ -46,6 +47,7 @@ Rules:
 - Calculate CAC/LTV ratio realistically for the industry
 - Break-even month should be realistic (typically 12-24 for startups)
 - Market sentiment between 0 and 1 based on industry trends
+- confidenceScore: 80-100 if the niche is well-known with lots of data, 40-70 if moderately known, 10-39 if extremely niche with sparse data
 - Overall score considers all feasibility axes plus financial health
 - Risk level: 80+ = Low, 60-79 = Medium, 40-59 = High, <40 = Critical
 - Return ONLY the JSON object, no markdown, no explanation`;
@@ -56,12 +58,39 @@ serve(async (req) => {
   }
 
   try {
-    const input = await req.json();
+    const body = await req.json();
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) {
       throw new Error("LOVABLE_API_KEY is not configured");
     }
 
+    // Chat mode - contextual Q&A
+    if (body.chatMode && body.messages) {
+      const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${LOVABLE_API_KEY}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          model: "google/gemini-2.5-flash",
+          messages: body.messages,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Chat request failed");
+      }
+
+      const data = await response.json();
+      const reply = data.choices?.[0]?.message?.content || "I couldn't generate a response.";
+      return new Response(JSON.stringify({ reply }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    // Evaluation mode
+    const input = body;
     const userPrompt = `Evaluate this startup:
 - Name: ${input.name}
 - Description: ${input.description}
@@ -111,7 +140,6 @@ serve(async (req) => {
       throw new Error("Empty AI response");
     }
 
-    // Parse JSON - strip markdown fences if present
     let cleaned = content.trim();
     if (cleaned.startsWith("```")) {
       cleaned = cleaned.replace(/^```(?:json)?\n?/, "").replace(/\n?```$/, "");
@@ -119,7 +147,6 @@ serve(async (req) => {
 
     const result = JSON.parse(cleaned);
 
-    // Validate critical fields
     if (typeof result.overallScore !== "number" || !result.feasibility || !result.projections) {
       throw new Error("Invalid evaluation structure from AI");
     }
