@@ -1,0 +1,84 @@
+import { TrendingUp, TrendingDown, DollarSign, Users, Clock, Activity } from 'lucide-react';
+import type { EvaluationResult } from '@/types/evaluation';
+
+interface Props {
+  result: EvaluationResult;
+  latency: number | null;
+}
+
+const riskColors: Record<string, string> = {
+  Low: 'text-primary bg-primary/10',
+  Medium: 'text-warning bg-warning/10',
+  High: 'text-destructive bg-destructive/10',
+  Critical: 'text-destructive bg-destructive/20',
+};
+
+export function ScoreOverview({ result, latency }: Props) {
+  const metrics = [
+    {
+      label: 'Overall Score',
+      value: `${result.overallScore}/100`,
+      icon: Activity,
+      highlight: true,
+    },
+    {
+      label: 'Burn Rate',
+      value: `$${(result.burnRate / 1000).toFixed(0)}K/mo`,
+      icon: DollarSign,
+    },
+    {
+      label: 'CAC/LTV Ratio',
+      value: `${result.cacLtvRatio.toFixed(2)}x`,
+      icon: result.cacLtvRatio < 3 ? TrendingUp : TrendingDown,
+    },
+    {
+      label: 'Break-even',
+      value: `Month ${result.breakEvenMonth}`,
+      icon: Clock,
+    },
+    {
+      label: 'Sentiment',
+      value: `${(result.marketSentiment * 100).toFixed(0)}%`,
+      icon: Users,
+    },
+  ];
+
+  return (
+    <div className="glass rounded-2xl p-6">
+      <div className="flex items-center justify-between mb-5">
+        <h3 className="text-lg font-semibold text-foreground">Risk Summary</h3>
+        <div className="flex items-center gap-3">
+          {latency && (
+            <span className="text-xs text-muted-foreground font-mono">
+              {(latency / 1000).toFixed(1)}s
+            </span>
+          )}
+          <span className={`px-3 py-1 rounded-full text-xs font-semibold ${riskColors[result.riskLevel]}`}>
+            {result.riskLevel} Risk
+          </span>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+        {metrics.map((m) => (
+          <div
+            key={m.label}
+            className={`rounded-xl p-3 ${
+              m.highlight ? 'bg-gradient-to-br from-primary/10 to-accent/10 border border-primary/20' : 'bg-muted/30'
+            }`}
+          >
+            <div className="flex items-center gap-2 mb-1">
+              <m.icon className="h-3.5 w-3.5 text-muted-foreground" />
+              <span className="text-xs text-muted-foreground">{m.label}</span>
+            </div>
+            <p className={`text-lg font-bold font-mono ${m.highlight ? 'gradient-text' : 'text-foreground'}`}>
+              {m.value}
+            </p>
+          </div>
+        ))}
+      </div>
+
+      <p className="mt-4 text-sm text-muted-foreground leading-relaxed">{result.summary}</p>
+    </div>
+  );
+}
