@@ -40,12 +40,11 @@ export default function HistoryPage() {
   );
 
   const handleOpen = (eval_: any) => {
-    // Store in zustand and navigate to dashboard
-    const { useEvaluationStore } = require('@/store/evaluationStore');
+    const { useEvaluationStore } = await import('@/store/evaluationStore');
     useEvaluationStore.setState({
       step: 'complete',
-      input: eval_.input_json as IdeaInput,
-      result: eval_.result_json as EvaluationResult,
+      input: eval_.input_json as unknown as IdeaInput,
+      result: eval_.result_json as unknown as EvaluationResult,
       latency: null,
       error: null,
     });
