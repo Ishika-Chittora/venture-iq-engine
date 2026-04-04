@@ -4,8 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { History, Trash2, Download, Search, Loader2 } from 'lucide-react';
 import { getEvaluations, deleteEvaluation } from '@/services/evaluationStorage';
+import { useEvaluationStore } from '@/store/evaluationStore';
 import { Skeleton } from '@/components/ui/skeleton';
 import { toast } from 'sonner';
+import type { EvaluationResult, IdeaInput } from '@/types/evaluation';
 import type { EvaluationResult, IdeaInput } from '@/types/evaluation';
 
 const riskColors: Record<string, string> = {
