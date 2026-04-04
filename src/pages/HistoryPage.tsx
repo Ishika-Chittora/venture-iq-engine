@@ -8,7 +8,6 @@ import { useEvaluationStore } from '@/store/evaluationStore';
 import { Skeleton } from '@/components/ui/skeleton';
 import { toast } from 'sonner';
 import type { EvaluationResult, IdeaInput } from '@/types/evaluation';
-import type { EvaluationResult, IdeaInput } from '@/types/evaluation';
 
 const riskColors: Record<string, string> = {
   Low: 'text-primary bg-primary/10',
