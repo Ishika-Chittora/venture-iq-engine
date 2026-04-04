@@ -42,7 +42,6 @@ export default function HistoryPage() {
   );
 
   const handleOpen = (eval_: any) => {
-    const { useEvaluationStore } = await import('@/store/evaluationStore');
     useEvaluationStore.setState({
       step: 'complete',
       input: eval_.input_json as unknown as IdeaInput,
