@@ -23,8 +23,8 @@ export default function ComparePage() {
   const evalA = evaluations?.find((e) => e.id === selectedA);
   const evalB = evaluations?.find((e) => e.id === selectedB);
 
-  const resultA = evalA?.result_json as EvaluationResult | undefined;
-  const resultB = evalB?.result_json as EvaluationResult | undefined;
+  const resultA = evalA?.result_json as unknown as EvaluationResult | undefined;
+  const resultB = evalB?.result_json as unknown as EvaluationResult | undefined;
 
   const radarData = resultA && resultB
     ? [
