@@ -5,12 +5,13 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { AppLayout } from "@/components/AppLayout";
-import Index from "./pages/Index.tsx";
-import Auth from "./pages/Auth.tsx";
-import HistoryPage from "./pages/HistoryPage.tsx";
-import ComparePage from "./pages/ComparePage.tsx";
-import SettingsPage from "./pages/SettingsPage.tsx";
-import NotFound from "./pages/NotFound.tsx";
+import LandingPage from "./pages/LandingPage";
+import Index from "./pages/Index";
+import Auth from "./pages/Auth";
+import HistoryPage from "./pages/HistoryPage";
+import ComparePage from "./pages/ComparePage";
+import SettingsPage from "./pages/SettingsPage";
+import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
@@ -22,9 +23,10 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <Routes>
+            <Route path="/" element={<LandingPage />} />
             <Route path="/auth" element={<Auth />} />
             <Route element={<AppLayout />}>
-              <Route path="/" element={<Index />} />
+              <Route path="/dashboard" element={<Index />} />
               <Route path="/history" element={<HistoryPage />} />
               <Route path="/compare" element={<ComparePage />} />
               <Route path="/settings" element={<SettingsPage />} />

@@ -14,7 +14,7 @@ import {
 } from '@/components/ui/sidebar';
 
 const navItems = [
-  { title: 'Dashboard', url: '/', icon: LayoutDashboard },
+  { title: 'Dashboard', url: '/dashboard', icon: LayoutDashboard },
   { title: 'History', url: '/history', icon: History },
   { title: 'Compare', url: '/compare', icon: GitCompareArrows },
   { title: 'Settings', url: '/settings', icon: Settings },
@@ -27,7 +27,7 @@ export function AppSidebar() {
 
   return (
     <Sidebar collapsible="icon" className="border-r-0">
-      <div className="px-4 py-5 flex items-center gap-3">
+      <a href="/" className="px-4 py-5 flex items-center gap-3">
         <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center flex-shrink-0">
           <Zap className="h-5 w-5 text-primary-foreground" />
         </div>
@@ -37,7 +37,7 @@ export function AppSidebar() {
             <p className="text-[10px] text-muted-foreground">AI Risk Engine</p>
           </div>
         )}
-      </div>
+      </a>
 
       <SidebarContent>
         <SidebarGroup>
@@ -48,7 +48,7 @@ export function AppSidebar() {
                   <SidebarMenuButton asChild>
                     <NavLink
                       to={item.url}
-                      end={item.url === '/'}
+                      end={item.url === '/dashboard'}
                       className="relative flex items-center gap-3 px-3 py-2.5 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted/30 transition-all"
                       activeClassName="text-foreground bg-muted/40 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-[3px] before:h-5 before:rounded-r-full before:bg-primary before:shadow-[0_0_8px_hsl(152_76%_36%/0.6)]"
                     >

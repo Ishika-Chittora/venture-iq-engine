@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, Suspense } from 'react';
 import { RotateCcw } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useEvaluationStore } from '@/store/evaluationStore';
@@ -17,6 +17,8 @@ import { ConfidenceMeter } from '@/components/ConfidenceMeter';
 import { ExportButton } from '@/components/ExportButton';
 import { AIChatDrawer } from '@/components/AIChatDrawer';
 import { SkeletonDashboard } from '@/components/SkeletonDashboard';
+import { ActionPlan } from '@/components/ActionPlan';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { toast } from 'sonner';
 import type { IdeaInput } from '@/types/evaluation';
 
@@ -112,10 +114,12 @@ const Index = () => {
 
           <ScoreOverview result={result} latency={latency} />
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <FeasibilityRadar scores={result.feasibility} />
-            <ProjectionChart projections={result.projections} breakEvenMonth={result.breakEvenMonth} />
-          </div>
+          <ErrorBoundary>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <FeasibilityRadar scores={result.feasibility} />
+              <ProjectionChart projections={result.projections} breakEvenMonth={result.breakEvenMonth} />
+            </div>
+          </ErrorBoundary>
 
           <SensitivityAnalysis
             baseProjections={result.projections}
@@ -123,7 +127,15 @@ const Index = () => {
             baseBreakEven={result.breakEvenMonth}
           />
 
-          <SwotGrid swot={result.swot} />
+          <ErrorBoundary>
+            <SwotGrid swot={result.swot} />
+          </ErrorBoundary>
+
+          {result.actionPlan && (
+            <ErrorBoundary>
+              <ActionPlan actionPlan={result.actionPlan} />
+            </ErrorBoundary>
+          )}
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <CompetitorTable competitors={result.competitors} />

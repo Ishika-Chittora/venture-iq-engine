@@ -43,6 +43,13 @@ export interface FinancialProjection {
   runway: number;
 }
 
+export interface ActionPlanWeeks {
+  week1: string[];
+  week2: string[];
+  week3: string[];
+  week4: string[];
+}
+
 export interface EvaluationResult {
   overallScore: number;
   riskLevel: 'Low' | 'Medium' | 'High' | 'Critical';
@@ -57,6 +64,7 @@ export interface EvaluationResult {
   summary: string;
   recommendations: string[];
   confidenceScore?: number;
+  actionPlan?: ActionPlanWeeks;
 }
 
 export type EvaluationStep =
