@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, Suspense } from 'react';
 import { RotateCcw } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useEvaluationStore } from '@/store/evaluationStore';
@@ -17,6 +17,8 @@ import { ConfidenceMeter } from '@/components/ConfidenceMeter';
 import { ExportButton } from '@/components/ExportButton';
 import { AIChatDrawer } from '@/components/AIChatDrawer';
 import { SkeletonDashboard } from '@/components/SkeletonDashboard';
+import { ActionPlan } from '@/components/ActionPlan';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { toast } from 'sonner';
 import type { IdeaInput } from '@/types/evaluation';
 
