@@ -20,6 +20,9 @@ export function AppLayout() {
 
   if (!user) return <Navigate to="/auth" replace />;
 
+  // Link logo to home
+  
+
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-background">
