@@ -114,10 +114,12 @@ const Index = () => {
 
           <ScoreOverview result={result} latency={latency} />
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <FeasibilityRadar scores={result.feasibility} />
-            <ProjectionChart projections={result.projections} breakEvenMonth={result.breakEvenMonth} />
-          </div>
+          <ErrorBoundary>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <FeasibilityRadar scores={result.feasibility} />
+              <ProjectionChart projections={result.projections} breakEvenMonth={result.breakEvenMonth} />
+            </div>
+          </ErrorBoundary>
 
           <SensitivityAnalysis
             baseProjections={result.projections}
