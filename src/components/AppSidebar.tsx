@@ -27,7 +27,7 @@ export function AppSidebar() {
 
   return (
     <Sidebar collapsible="icon" className="border-r-0">
-      <div className="px-4 py-5 flex items-center gap-3">
+      <a href="/" className="px-4 py-5 flex items-center gap-3">
         <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center flex-shrink-0">
           <Zap className="h-5 w-5 text-primary-foreground" />
         </div>
@@ -37,7 +37,7 @@ export function AppSidebar() {
             <p className="text-[10px] text-muted-foreground">AI Risk Engine</p>
           </div>
         )}
-      </div>
+      </a>
 
       <SidebarContent>
         <SidebarGroup>
