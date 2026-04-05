@@ -37,12 +37,19 @@ You MUST respond with valid JSON matching this exact schema:
   "marketSentiment": <number 0-1>,
   "confidenceScore": <number 0-100, representing data reliability>,
   "summary": "<2-3 sentence executive summary>",
-  "recommendations": ["<actionable recommendation>"]
+  "recommendations": ["<actionable recommendation>"],
+  "actionPlan": {
+    "week1": ["<Foundation task 1>", "<Foundation task 2>", "<Foundation task 3>"],
+    "week2": ["<MVP/Validation task 1>", "<MVP/Validation task 2>", "<MVP/Validation task 3>"],
+    "week3": ["<Marketing task 1>", "<Marketing task 2>", "<Marketing task 3>"],
+    "week4": ["<Growth task 1>", "<Growth task 2>", "<Growth task 3>"]
+  }
 }
 
 Rules:
 - Generate exactly 24 monthly projections
 - Generate 3-5 competitors, 3-4 items per SWOT category, 4-6 recommendations
+- Generate 3-4 actionable tasks per week in the actionPlan (Week 1: Foundation & Setup, Week 2: MVP & Validation, Week 3: Marketing & Outreach, Week 4: Growth & Optimization)
 - Base financial projections on the provided monthly burn rate and team size
 - Calculate CAC/LTV ratio realistically for the industry
 - Break-even month should be realistic (typically 12-24 for startups)
