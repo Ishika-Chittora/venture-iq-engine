@@ -16,7 +16,7 @@ export function MobileNav() {
           <NavLink
             key={item.title}
             to={item.url}
-            end={item.url === '/'}
+            end={item.url === '/dashboard'}
             className="flex flex-col items-center gap-1 px-3 py-1.5 rounded-lg text-muted-foreground transition"
             activeClassName="text-primary"
           >

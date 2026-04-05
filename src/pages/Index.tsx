@@ -127,7 +127,15 @@ const Index = () => {
             baseBreakEven={result.breakEvenMonth}
           />
 
-          <SwotGrid swot={result.swot} />
+          <ErrorBoundary>
+            <SwotGrid swot={result.swot} />
+          </ErrorBoundary>
+
+          {result.actionPlan && (
+            <ErrorBoundary>
+              <ActionPlan actionPlan={result.actionPlan} />
+            </ErrorBoundary>
+          )}
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <CompetitorTable competitors={result.competitors} />
