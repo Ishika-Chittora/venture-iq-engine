@@ -7,7 +7,7 @@ const articles = [
   { title: 'TAM, SAM, SOM Explained', category: 'Market', description: 'Break down your total addressable market to find realistic revenue targets.', url: '#' },
   { title: 'Crafting a Competitive Moat', category: 'Strategy', description: 'Learn how to build sustainable competitive advantages early on.', url: '#' },
   { title: 'Reading Your SWOT Analysis', category: 'Analysis', description: 'How to interpret strengths, weaknesses, opportunities and threats effectively.', url: '#' },
-  { title: 'Unit Economics 101', category: 'Finance', description: 'CAC, LTV, and why they matter for your startup's survival.', url: '#' },
+  { title: 'Unit Economics 101', category: 'Finance', description: 'CAC, LTV, and why they matter for your startup survival.', url: '#' },
   { title: 'When to Pivot vs Persevere', category: 'Strategy', description: 'Data-driven frameworks for making the hardest startup decision.', url: '#' },
 ];
 
