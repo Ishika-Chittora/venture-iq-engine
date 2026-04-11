@@ -11,6 +11,8 @@ import Auth from "./pages/Auth";
 import HistoryPage from "./pages/HistoryPage";
 import ComparePage from "./pages/ComparePage";
 import SettingsPage from "./pages/SettingsPage";
+import FounderQuizPage from "./pages/FounderQuizPage";
+import KnowledgeBasePage from "./pages/KnowledgeBasePage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -30,6 +32,8 @@ const App = () => (
               <Route path="/history" element={<HistoryPage />} />
               <Route path="/compare" element={<ComparePage />} />
               <Route path="/settings" element={<SettingsPage />} />
+              <Route path="/quiz" element={<FounderQuizPage />} />
+              <Route path="/knowledge" element={<KnowledgeBasePage />} />
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>

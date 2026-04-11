@@ -17,7 +17,8 @@ import { ConfidenceMeter } from '@/components/ConfidenceMeter';
 import { ExportButton } from '@/components/ExportButton';
 import { AIChatDrawer } from '@/components/AIChatDrawer';
 import { SkeletonDashboard } from '@/components/SkeletonDashboard';
-import { ActionPlan } from '@/components/ActionPlan';
+import { KanbanActionPlan } from '@/components/KanbanActionPlan';
+import { AnimatedSpinner } from '@/components/AnimatedSpinner';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { toast } from 'sonner';
 import type { IdeaInput } from '@/types/evaluation';
@@ -133,7 +134,7 @@ const Index = () => {
 
           {result.actionPlan && (
             <ErrorBoundary>
-              <ActionPlan actionPlan={result.actionPlan} />
+              <KanbanActionPlan actionPlan={result.actionPlan} />
             </ErrorBoundary>
           )}
 

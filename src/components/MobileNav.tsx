@@ -1,11 +1,12 @@
-import { LayoutDashboard, History, GitCompareArrows, Settings } from 'lucide-react';
+import { LayoutDashboard, History, GitCompareArrows, Settings, Brain, BookOpen } from 'lucide-react';
 import { NavLink } from '@/components/NavLink';
 
 const items = [
   { title: 'Dashboard', url: '/dashboard', icon: LayoutDashboard },
+  { title: 'Quiz', url: '/quiz', icon: Brain },
   { title: 'History', url: '/history', icon: History },
   { title: 'Compare', url: '/compare', icon: GitCompareArrows },
-  { title: 'Settings', url: '/settings', icon: Settings },
+  { title: 'Knowledge', url: '/knowledge', icon: BookOpen },
 ];
 
 export function MobileNav() {
@@ -17,7 +18,7 @@ export function MobileNav() {
             key={item.title}
             to={item.url}
             end={item.url === '/dashboard'}
-            className="flex flex-col items-center gap-1 px-3 py-1.5 rounded-lg text-muted-foreground transition"
+            className="flex flex-col items-center gap-1 px-2 py-1.5 rounded-lg text-muted-foreground transition"
             activeClassName="text-primary"
           >
             <item.icon className="h-5 w-5" />
