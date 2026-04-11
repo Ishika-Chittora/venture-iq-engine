@@ -1,4 +1,4 @@
-import { LayoutDashboard, History, GitCompareArrows, Settings, LogOut, Zap } from 'lucide-react';
+import { LayoutDashboard, History, GitCompareArrows, Settings, LogOut, Zap, Brain, BookOpen } from 'lucide-react';
 import { NavLink } from '@/components/NavLink';
 import { useAuth } from '@/contexts/AuthContext';
 import {
@@ -15,8 +15,10 @@ import {
 
 const navItems = [
   { title: 'Dashboard', url: '/dashboard', icon: LayoutDashboard },
+  { title: 'Founder Quiz', url: '/quiz', icon: Brain },
   { title: 'History', url: '/history', icon: History },
   { title: 'Compare', url: '/compare', icon: GitCompareArrows },
+  { title: 'Knowledge Base', url: '/knowledge', icon: BookOpen },
   { title: 'Settings', url: '/settings', icon: Settings },
 ];
 
