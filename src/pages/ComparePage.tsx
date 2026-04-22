@@ -26,7 +26,7 @@ export default function ComparePage() {
   const resultA = evalA?.result_json as unknown as EvaluationResult | undefined;
   const resultB = evalB?.result_json as unknown as EvaluationResult | undefined;
 
-  const radarData = resultA && resultB
+  const radarData = resultA?.feasibility && resultB?.feasibility
     ? [
         { axis: 'Market', A: resultA.feasibility.market, B: resultB.feasibility.market },
         { axis: 'Technical', A: resultA.feasibility.technical, B: resultB.feasibility.technical },
@@ -161,10 +161,10 @@ export default function ComparePage() {
 
               {/* Metric comparison */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                <MetricCard label="Overall Score" valueA={`${resultA.overallScore}`} valueB={`${resultB.overallScore}`} />
-                <MetricCard label="Break-even" valueA={`M${resultA.breakEvenMonth}`} valueB={`M${resultB.breakEvenMonth}`} />
-                <MetricCard label="Burn Rate" valueA={`$${(resultA.burnRate/1000).toFixed(0)}K`} valueB={`$${(resultB.burnRate/1000).toFixed(0)}K`} />
-                <MetricCard label="CAC/LTV" valueA={`${resultA.cacLtvRatio.toFixed(1)}x`} valueB={`${resultB.cacLtvRatio.toFixed(1)}x`} />
+                <MetricCard label="Overall Score" valueA={`${resultA.overallScore ?? 0}`} valueB={`${resultB.overallScore ?? 0}`} />
+                <MetricCard label="Break-even" valueA={`M${resultA.breakEvenMonth ?? 0}`} valueB={`M${resultB.breakEvenMonth ?? 0}`} />
+                <MetricCard label="Burn Rate" valueA={`$${((resultA.burnRate ?? 0)/1000).toFixed(0)}K`} valueB={`$${((resultB.burnRate ?? 0)/1000).toFixed(0)}K`} />
+                <MetricCard label="CAC/LTV" valueA={`${(resultA.cacLtvRatio ?? 0).toFixed(1)}x`} valueB={`${(resultB.cacLtvRatio ?? 0).toFixed(1)}x`} />
               </div>
 
               {/* AI Summary */}

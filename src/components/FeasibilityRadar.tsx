@@ -7,6 +7,7 @@ interface Props {
 }
 
 export function FeasibilityRadar({ scores }: Props) {
+  if (!scores) return null;
   const data = [
     { axis: 'Market', value: scores.market },
     { axis: 'Technical', value: scores.technical },

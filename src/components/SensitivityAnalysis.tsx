@@ -12,6 +12,7 @@ interface Props {
 }
 
 export function SensitivityAnalysis({ baseProjections, baseBurn, baseBreakEven }: Props) {
+  if (!baseProjections) return null;
   const [burnAdjust, setBurnAdjust] = useState(0);
   const [priceAdjust, setPriceAdjust] = useState(0);
 

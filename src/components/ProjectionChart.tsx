@@ -8,6 +8,7 @@ interface Props {
 }
 
 export function ProjectionChart({ projections, breakEvenMonth }: Props) {
+  if (!projections) return null;
   const formatted = projections.map((p) => ({
     ...p,
     label: `M${p.month}`,

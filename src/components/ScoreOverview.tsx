@@ -26,8 +26,10 @@ const item = {
 };
 
 export function ScoreOverview({ result, latency }: Props) {
-  const animatedScore = useCountUp(result.overallScore);
-  const animatedBreakEven = useCountUp(result.breakEvenMonth, 800);
+  const animatedScore = useCountUp(result?.overallScore ?? 0);
+  const animatedBreakEven = useCountUp(result?.breakEvenMonth ?? 0, 800);
+
+  if (!result) return null;
 
   const metrics = [
     {
@@ -43,7 +45,7 @@ export function ScoreOverview({ result, latency }: Props) {
     },
     {
       label: 'CAC/LTV Ratio',
-      value: `${result.cacLtvRatio.toFixed(2)}x`,
+      value: `${(result.cacLtvRatio ?? 0).toFixed(2)}x`,
       icon: result.cacLtvRatio < 3 ? TrendingUp : TrendingDown,
     },
     {
@@ -53,7 +55,7 @@ export function ScoreOverview({ result, latency }: Props) {
     },
     {
       label: 'Sentiment',
-      value: `${(result.marketSentiment * 100).toFixed(0)}%`,
+      value: `${((result.marketSentiment ?? 0) * 100).toFixed(0)}%`,
       icon: Users,
     },
   ];

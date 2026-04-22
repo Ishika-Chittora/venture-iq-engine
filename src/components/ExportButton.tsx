@@ -46,14 +46,16 @@ export function ExportButton({ result, input }: Props) {
       doc.text(`${input.industry} · ${input.fundingStage} · ${input.targetMarket}`, 15, y);
       y += 12;
 
+// ...existing code...
       const metrics = [
-        ['Overall Score', `${result.overallScore}/100`],
+        ['Overall Score', `${result.overallScore ?? 0}/100`],
         ['Risk Level', result.riskLevel],
-        ['Burn Rate', `$${(result.burnRate / 1000).toFixed(0)}K/mo`],
-        ['CAC/LTV', `${result.cacLtvRatio.toFixed(2)}x`],
-        ['Break-even', `Month ${result.breakEvenMonth}`],
-        ['Sentiment', `${(result.marketSentiment * 100).toFixed(0)}%`],
+        ['Burn Rate', `$${(result.burnRate ? (result.burnRate / 1000).toFixed(0) : '0')}K/mo`],
+        ['CAC/LTV', `${result.cacLtvRatio?.toFixed(2) ?? '0.00'}x`],
+        ['Break-even', `Month ${result.breakEvenMonth ?? 'N/A'}`],
+        ['Sentiment', `${(result.marketSentiment ? (result.marketSentiment * 100).toFixed(0) : '0')}%`],
       ];
+// ...existing code...
 
       const colW = (w - 30) / 3;
       metrics.forEach(([label, value], i) => {

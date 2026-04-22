@@ -41,14 +41,14 @@ export default function HistoryPage() {
   );
 
   const handleOpen = (eval_: any) => {
-    useEvaluationStore.setState({
-      step: 'complete',
-      input: eval_.input_json as unknown as IdeaInput,
-      result: eval_.result_json as unknown as EvaluationResult,
-      latency: null,
-      error: null,
-    });
-    navigate('/');
+  useEvaluationStore.setState({
+    step: 'complete',
+    input: eval_.input_json as unknown as IdeaInput,
+    result: eval_.result_json as unknown as EvaluationResult,
+    latency: null,
+    error: null,
+  });
+  navigate('/', { state: { fromHistory: true } });
   };
 
   const exportCSV = () => {

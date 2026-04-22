@@ -16,6 +16,7 @@ const item = {
 };
 
 export function Recommendations({ recommendations }: Props) {
+  if (!recommendations) return null;
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}

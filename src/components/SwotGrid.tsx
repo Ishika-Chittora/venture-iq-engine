@@ -29,6 +29,7 @@ const card = {
   show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.4 } },
 };
 
+// ...existing code...
 function SwotCard({ items, label, icon: Icon, color }: {
   items: SwotItem[];
   label: string;
@@ -42,20 +43,27 @@ function SwotCard({ items, label, icon: Icon, color }: {
         <h4 className="text-sm font-semibold text-foreground">{label}</h4>
       </div>
       <div className="space-y-2">
-        {items.map((item, i) => (
-          <div key={i} className="flex items-start gap-2">
-            <span className={`px-1.5 py-0.5 rounded text-[10px] font-semibold border flex-shrink-0 mt-0.5 transition-shadow duration-300 ${impactBadge[item.impact].base} ${impactBadge[item.impact].glow}`}>
-              {item.impact}
-            </span>
-            <p className="text-xs text-muted-foreground leading-relaxed">{item.text}</p>
-          </div>
+        {items?.map((item, i) => (
+          item ? (
+            <div key={i} className="flex items-start gap-2">
+              <span className={`px-1.5 py-0.5 rounded text-[10px] font-semibold border flex-shrink-0 mt-0.5 transition-shadow duration-300 ${
+                impactBadge[item.impact]?.base || 'bg-muted/10 text-muted-foreground border-muted/20'
+              } ${
+                impactBadge[item.impact]?.glow || ''
+              }`}>
+                {item.impact || 'Unknown'}
+              </span>
+              <p className="text-xs text-muted-foreground leading-relaxed">{item.text}</p>
+            </div>
+          ) : null
         ))}
       </div>
     </motion.div>
   );
 }
-
+// ...existing code...
 export function SwotGrid({ swot }: Props) {
+  if (!swot) return null;  
   return (
     <div className="space-y-3">
       <h3 className="text-lg font-semibold text-foreground">SWOT Analysis</h3>

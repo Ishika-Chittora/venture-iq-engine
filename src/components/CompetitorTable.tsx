@@ -20,6 +20,7 @@ const defaultEdges: Record<string, string> = {
 };
 
 export function CompetitorTable({ competitors }: Props) {
+  if (!competitors) return null;
   const [expanded, setExpanded] = useState<number | null>(null);
 
   return (
