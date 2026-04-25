@@ -65,13 +65,19 @@ serve(async (req) => {
 
 Startup data: ${JSON.stringify(body)}
 
+IMPORTANT CALCULATION RULES:
+- burnRate: Use the monthlyBurn from input, or calculate as (monthly expenses)
+- breakEvenMonth: Calculate the month when cumulative profit becomes positive. Return a number >= 1. If breakeven is > 60 months, return 60. If never breaks even, return 48-60.
+- cacLtvRatio: Calculate as LTV / CAC. If revenue data is sparse, estimate based on industry: estimate CAC from marketing spend (assume 20% of burn rate), estimate LTV based on revenue potential and margin. Return minimum 1.5 if calculation unavailable.
+- For projections, create 24 months of financial data with realistic revenue growth (starting low, increasing over time)
+
 Return this exact JSON structure:
 {
   "overallScore": <number 0-100>,
   "riskLevel": <"Low"|"Medium"|"High"|"Critical">,
-  "burnRate": <monthly burn in dollars as number>,
-  "cacLtvRatio": <number>,
-  "breakEvenMonth": <number>,
+  "burnRate": <monthly burn in dollars as number, minimum 500>,
+  "cacLtvRatio": <number minimum 1.5>,
+  "breakEvenMonth": <number minimum 1, maximum 60>,
   "marketSentiment": <number 0-1>,
   "summary": <string>,
   "confidenceScore": <number 0-1>,
@@ -92,7 +98,7 @@ Return this exact JSON structure:
     "threats": [{ "text": <string>, "impact": <"High"|"Medium"|"Low"> }]
   },
   "projections": [
-    { "month": <number>, "revenue": <number>, "expenses": <number>, "profit": <number>, "runway": <number> }
+    { "month": <number 1-24>, "revenue": <number>, "expenses": <number>, "profit": <number>, "runway": <number> }
   ],
   "recommendations": [<string>],
   "actionPlan": {

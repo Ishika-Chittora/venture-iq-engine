@@ -2,7 +2,12 @@ import type { Config } from "tailwindcss";
 
 export default {
   darkMode: ["class"],
-  content: ["./pages/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./app/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
+  content: [
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}"
+  ],
   prefix: "",
   theme: {
     container: {
@@ -13,6 +18,18 @@ export default {
       },
     },
     extend: {
+      fontSize: {
+        xs: "0.875rem",
+        sm: "1rem",
+        base: "1.125rem",   // increased default
+        lg: "1.25rem",
+        xl: "1.5rem",
+        "2xl": "1.875rem",
+        "3xl": "2.25rem",
+        "4xl": "2.75rem",
+        "5xl": "3.5rem",
+        "6xl": "4.25rem",
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
