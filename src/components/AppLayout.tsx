@@ -6,11 +6,18 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Loader2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useEffect } from 'react'; // ✅ added
 
 export function AppLayout() {
   const { user, loading } = useAuth();
   const isMobile = useIsMobile();
   const location = useLocation();
+
+  // ✅ THE FIX: force light theme after reload (Google login case)
+  useEffect(() => {
+    localStorage.setItem("theme", "light");
+    document.documentElement.classList.remove("dark");
+  }, []);
 
   if (loading) {
     return (
